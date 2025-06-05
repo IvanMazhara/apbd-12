@@ -12,4 +12,5 @@ public class Client
     [MaxLength(120)] public string Email { get; set; }
     [MaxLength(120)] public string Telephone { get; set; }
     [MaxLength(120)] public string Pesel { get; set; }
+    public ICollection<ClientTrip> ClientTrips { get; set; } = new List<ClientTrip>();
 }
