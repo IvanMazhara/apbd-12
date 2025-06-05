@@ -106,5 +106,44 @@ public class DatabaseContext : DbContext
             MaxPeople = 8,
             Description = "A cozy vacation at breathtaking range of Carpathians mountains."
         });
+        modelBuilder.Entity<ClientTrip>().HasData(
+            new ClientTrip 
+            { 
+                IdClient = 1001, 
+                IdTrip = 1, 
+                RegisteredAt = new DateTime(2025, 4, 1), 
+                PaymentDate = new DateTime(2025, 4, 15) 
+            },
+            new ClientTrip 
+            { 
+                IdClient = 1003, 
+                IdTrip = 2, 
+                RegisteredAt = new DateTime(2015, 3, 10) 
+            },
+            new ClientTrip 
+            { 
+                IdClient = 1004, 
+                IdTrip = 2, 
+                RegisteredAt = new DateTime(2015, 4, 20), 
+                PaymentDate = new DateTime(2015, 4, 25) 
+            }
+        );
+        modelBuilder.Entity<CountryTrip>().HasData(
+            new CountryTrip 
+            { 
+                IdCountry = 1,
+                IdTrip = 1
+            },
+            new CountryTrip 
+            { 
+                IdCountry = 2,
+                IdTrip = 2 
+            },
+            new CountryTrip 
+            { 
+                IdCountry = 3,
+                IdTrip = 3 
+            }
+        );
     }
 }

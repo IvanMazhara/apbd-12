@@ -117,6 +117,28 @@ namespace apbd_12.Migrations
                     b.HasIndex("IdTrip");
 
                     b.ToTable("ClientTrip", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            IdClient = 1001,
+                            IdTrip = 1,
+                            PaymentDate = new DateTime(2025, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RegisteredAt = new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            IdClient = 1003,
+                            IdTrip = 2,
+                            RegisteredAt = new DateTime(2015, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            IdClient = 1004,
+                            IdTrip = 2,
+                            PaymentDate = new DateTime(2015, 4, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            RegisteredAt = new DateTime(2015, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("apbd_12.Models.Country", b =>
@@ -167,6 +189,23 @@ namespace apbd_12.Migrations
                     b.HasIndex("IdCountry");
 
                     b.ToTable("CountryTrip", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            IdTrip = 1,
+                            IdCountry = 1
+                        },
+                        new
+                        {
+                            IdTrip = 2,
+                            IdCountry = 2
+                        },
+                        new
+                        {
+                            IdTrip = 3,
+                            IdCountry = 3
+                        });
                 });
 
             modelBuilder.Entity("apbd_12.Models.Trip", b =>
