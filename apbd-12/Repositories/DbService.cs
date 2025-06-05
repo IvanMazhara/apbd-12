@@ -44,11 +44,74 @@ public class DbService : IDbService
 
     public async Task<bool> DeleteClientById(int idClient)
     {
-        throw new NotImplementedException();
+        var client = await _context.Clients
+            .Include(c => c.ClientTrips)
+            .FirstOrDefaultAsync(c => c.IdClient == idClient);
+
+        if (client == null)
+        {
+            throw new Exception($"Client with such ID {idClient} not found.");
+        }
+
+        if (client.ClientTrips.Any())
+        {
+            throw new InvalidOperationException($"Client with ID {idClient} cannot be deleted because they are assigned to trips.");
+        }
+
+        _context.Clients.Remove(client);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
+
 
     public async Task AssignClientToTrip(int idTrip, ClientTripRequestDto requestDto)
     {
-        throw new NotImplementedException();
+        var trip = await _context.Trips
+            .Include(t => t.ClientTrips)
+            .FirstOrDefaultAsync(t => t.IdTrip == idTrip);
+
+        if (trip == null)
+            throw new Exception("Trip not found.");
+
+        if (trip.DateFrom <= DateTime.Now)
+            throw new Exception("Cannot assign to a trip that already started.");
+        
+        var client = await _context.Clients
+            .FirstOrDefaultAsync(c => c.Pesel == requestDto.Pesel);
+
+        if (client != null)
+        {
+            var alreadyAssigned = await _context.ClientTrips
+                .AnyAsync(ct => ct.IdTrip == idTrip && ct.IdClient == client.IdClient);
+
+            if (alreadyAssigned)
+                throw new InvalidOperationException("Client is already registered for this trip.");
+        }
+        else
+        {
+            client = new Client
+            {
+                FirstName = requestDto.FirstName,
+                LastName = requestDto.LastName,
+                Email = requestDto.Email,
+                Telephone = requestDto.Telephone,
+                Pesel = requestDto.Pesel
+            };
+            _context.Clients.Add(client);
+            await _context.SaveChangesAsync();
+        }
+
+        var clientTrip = new ClientTrip
+        {
+            IdClient = client.IdClient,
+            IdTrip = idTrip,
+            RegisteredAt = DateTime.UtcNow,
+            PaymentDate = requestDto.PaymentDate
+        };
+
+        _context.ClientTrips.Add(clientTrip);
+        await _context.SaveChangesAsync();
     }
+
 }
