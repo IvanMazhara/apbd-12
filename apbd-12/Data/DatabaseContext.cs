@@ -64,5 +64,47 @@ public class DatabaseContext : DbContext
                 Pesel = "10APOL300F"
             }
         );
+        modelBuilder.Entity<Country>().HasData(
+        new Country
+        {
+            IdCountry = 1,
+            Name = "Canada"
+        },
+        new Country
+        {
+            IdCountry = 2,
+            Name = "Turkey"
+        },
+        new Country
+        {
+            IdCountry = 3,
+            Name = "Poland"
+        });
+        modelBuilder.Entity<Trip>().HasData(
+        new Trip
+        {
+            IdTrip = 1,
+            Name = "Niagara Falls Excursion",
+            DateFrom = new DateTime(2025, 5, 1),
+            DateTo = new DateTime(2025, 5, 5),
+            MaxPeople = 10,
+            Description = "A quick little tour to Canada."
+        }, 
+        new Trip {
+            IdTrip = 2,
+            Name = "Harran Expedition",
+            DateFrom = new DateTime(2015, 6, 23),
+            DateTo = new DateTime(2015, 6, 27),
+            MaxPeople = 5,
+            Description = "A mission to retrieve a file capable to save humanity."
+        },
+        new Trip {
+            IdTrip = 3,
+            Name = "Zakopane Vacation",
+            DateFrom = new DateTime(2015, 7, 10),
+            DateTo = new DateTime(2015, 7, 24),
+            MaxPeople = 8,
+            Description = "A cozy vacation at breathtaking range of Carpathians mountains."
+        });
     }
 }
